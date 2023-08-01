@@ -1,21 +1,33 @@
 import React from "react";
-import Modal from "./Modal";
+import { Link } from "react-router-dom";
+//import Modal from "./Modal";
+import { connect } from "react-redux";
 
-const Contact = () => {
+const Contact = ({ cards }) => {
   return (
     <div>
-      <Modal />
-      <div
-        className="ui raised very padded text container segment"
-        style={{ marginTop: "80px" }}
-      >
-        <h3 className="ui header">Contact</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-      </div>
+      {/*<Modal />*/}
+      {cards.map((card) => {
+        return (
+          <div
+            className="ui raised very padded text container segment"
+            style={{ marginTop: "80px" }}
+            key={card.id}
+          >
+            <Link to={`/${card.title}`} className="ui header">
+              {card.title}
+            </Link>
+
+            <p>{card.body}</p>
+          </div>
+        );
+      })}
     </div>
   );
 };
-export default Contact;
+const mapStateToProps = (state) => {
+  return {
+    cards: state.cards,
+  };
+};
+export default connect(mapStateToProps)(Contact);
